@@ -124,10 +124,7 @@ class EducationsSerializer(serializers.ModelSerializer):
         model = Education
         fields = '__all__'
 
-class MessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Message
-        fields = '__all__'
+
 
 class PageViewLogSerializer(serializers.ModelSerializer):
     class Meta:
@@ -140,3 +137,13 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ['name']
+
+class ChatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chat
+        fields = '__all__'
+
+        extra_kwargs = {
+            'image': {'required': False, 'allow_null': True},
+
+        }

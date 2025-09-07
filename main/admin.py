@@ -3,7 +3,7 @@ from .models import (
     Skill, SoftSkill, Tag,
     Project, ProjectCoverImage,
     BlogPost, BlogCoverImage,
-    Experience, Education, Message, PageViewLog
+    Experience, Education,PageViewLog
 )
 
 
@@ -62,12 +62,7 @@ class EducationAdmin(admin.ModelAdmin):
     list_display = ('degree', 'school', 'teacher', 'start_year', 'end_year')
 
 
-# Xabarlar
-@admin.register(Message)
-class MessageAdmin(admin.ModelAdmin):
-    list_display = ('subject', 'user', 'is_read', 'created_at')
-    search_fields = ('subject', 'message', 'user__username')
-    list_filter = ('is_read', 'created_at')
+
 
 
 

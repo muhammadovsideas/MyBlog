@@ -10,8 +10,9 @@ urlpatterns = [
     path('blogpost-detail/<slug:slug>', BlogPostDetailView.as_view(), name='blogpost-detail'),
     path('experience-list/', ExperienceListView.as_view(), name='experience-list'),
     path('education-list/', EducationListView.as_view(), name='education-list'),
-    path('message-create/', MessageCreateView.as_view(), name='message-create'),
-    path('message-list/', MessageListView.as_view(), name='message-list'),
-    path('message-delete/<int:pk>/', MessageDeleteView.as_view(), name='message-delete'),
     path('tag-list/', TagListView.as_view(), name='tag-list'),
+    path('chat-create/', ChatCreateView.as_view(), name='chat-create'),
+    path('chat-list/', ChatListView.as_view(), name='chat-list'),
+    path('chat-delete/<int:pk>/', ChatDeleteView.as_view(), name='chat-delete'),
+    path('page-view-log/', PageViewLogListView.as_view(), name='page-view-log'),
 ]

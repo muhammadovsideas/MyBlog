@@ -1,10 +1,13 @@
 from rest_framework import generics
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from django.views.generic import TemplateView
 from django.shortcuts import render
 from main.serializers import *
 from main.models import *
+from users.permissions import IsAdmin, IsUser
+from .permissions import *
 
 
 class SkillListView(generics.ListAPIView):
@@ -71,26 +74,6 @@ class EducationListView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
 
-class MessageListView(generics.ListAPIView):
-    queryset = Message.objects.all()
-    serializer_class = MessageSerializer
-    permission_classes = [IsAuthenticated]
-
-
-class MessageCreateView(generics.CreateAPIView):
-    queryset = Message.objects.all()
-    serializer_class = MessageSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
-
-
-class MessageDeleteView(generics.DestroyAPIView):
-    queryset = Message.objects.all()
-    serializer_class = MessageSerializer
-    permission_classes = [IsAuthenticated]
-
 
 class TagListView(generics.ListAPIView):
     queryset = Tag.objects.all()
@@ -98,7 +81,40 @@ class TagListView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
 
+class ChatCreateView(generics.CreateAPIView):
+    serializer_class = ChatSerializer
+    permission_classes = [IsAdminIsUser]
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class ChatListView(generics.ListAPIView):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
+    permission_classes = [AllowAny]
+
+
+class ChatDeleteView(generics.DestroyAPIView):
+    serializer_class = ChatSerializer
+    permission_classes = [IsAdminIsUser]
+    queryset = Chat.objects.all()
+
+    def get_object(self):
+        obj = super().get_object()
+        user = self.request.user
+
+        # Agar oddiy foydalanuvchi bo'lsa faqat o'ziga tegishli chatni o'chira oladi
+        if not user.is_superuser and obj.user != user:
+            raise PermissionDenied("Siz faqat o'zingizga tegishli chatni o'chira olasiz.")
+        return obj
+
+
+
+class PageViewLogListView(generics.ListAPIView):
+    queryset = PageViewLog.objects.all()
+    serializer_class = PageViewLogSerializer
+    permission_classes = [IsAuthenticated]
 
 
 

@@ -1,4 +1,6 @@
 from django.db import models
+
+
 from users.models import User
 from django_ckeditor_5.fields import CKEditor5Field
 from django.utils.text import slugify
@@ -104,15 +106,7 @@ class Education(models.Model):
     def __str__(self):
         return f"{self.degree} - {self.school}"
 
-class Message(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages')
-    subject = models.CharField(max_length=200, null=True, blank=True)
-    message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)
 
-    def __str__(self):
-        return f"{self.subject} from {self.user}"
 
 
 class PageViewLog(models.Model):
@@ -125,4 +119,14 @@ class PageViewLog(models.Model):
 
     def __str__(self):
         return f"View from {self.ip_address} on {self.project.title}"
+
+class Chat(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chats')
+    message = models.TextField()
+    image = models.ImageField(upload_to='chats/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username}"
+
 
