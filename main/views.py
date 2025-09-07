@@ -35,6 +35,8 @@ class BlogPostListView(generics.ListAPIView):
     lookup_field = 'slug'
 
 
+
+
 class BlogPostDetailView(generics.RetrieveAPIView):
     queryset = BlogPost.objects.all()
     serializer_class = BlogPostSerializer
@@ -68,6 +70,7 @@ class ExperienceListView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
 
+
 class EducationListView(generics.ListAPIView):
     queryset = Education.objects.all()
     serializer_class = EducationsSerializer
@@ -75,10 +78,14 @@ class EducationListView(generics.ListAPIView):
 
 
 
+
+
 class TagListView(generics.ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = [AllowAny]
+
+
 
 
 class ChatCreateView(generics.CreateAPIView):
